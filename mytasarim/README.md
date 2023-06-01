@@ -1,2 +1,1 @@
-This is the personal portfolio website built and owned by Hulusi Bumin Yalçın
-made using svelte and tailwind
+A tool for designing pdf files using svelte and tailwind or the custom build system (soon)
