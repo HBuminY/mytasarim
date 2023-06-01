@@ -9,5 +9,12 @@
     .textInput{
         @apply border border-gray-800 focus:border-black
     }
+    
+    .listBullet{
+        @apply before:content-['•'] before:mr-1
+    }
+    .icon{
+        @apply aspect-square h-full
+    }
 }
 
