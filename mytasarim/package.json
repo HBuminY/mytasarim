@@ -17,6 +17,7 @@
     "vite": "^4.3.2"
   },
   "dependencies": {
+    "jspdf": "^2.5.1",
     "panzoom": "^9.4.3"
   }
 }

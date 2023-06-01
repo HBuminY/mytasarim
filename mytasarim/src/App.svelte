@@ -6,13 +6,16 @@
   import { mousePos } from "./lib/stores.js";
     import FileMenu from "./lib/fileMenu.svelte";
     import CanvasMenu from "./lib/canvasMenu.svelte";
+    import Mycv from "./lib/mycv.svelte";
 
   let ww = window.innerWidth; // window width
   let wh = window.innerHeight; // window height
 
+  let canvasDiv;
+
   let canvasOptions={
-    width:700,
-    height:700,
+    width:620,
+    height:841,
   };
   
   function mousePosHandler(event){
@@ -29,7 +32,7 @@
       <Menu>
         <MenuTab>
           <span slot="title">File</span>
-          <span slot="menu"><FileMenu/></span>
+          <span slot="menu"><FileMenu bind:canvasDiv bind:canvasOptions/></span>
         </MenuTab>
 
         <MenuTab>
@@ -44,8 +47,8 @@
       </Menu>
 
       <div class="grow relative h-full bg-slate-300 overflow-clip">
-        <Canvas bind:canvasOptions>
-
+        <Canvas bind:canvasOptions bind:canvasDiv>
+          <Mycv/>
         </Canvas>
       </div>
 

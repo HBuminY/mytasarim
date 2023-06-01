@@ -10,6 +10,7 @@
 </script>
     
 <div>
+    <p class="text-red-700">Warning : Layout system isn't complete (dont use it!)</p>
     <span>
         <button class="button">
             Add Layout

@@ -3,7 +3,7 @@
     import { onMount } from "svelte";
     
     export let canvasOptions;
-    let canvasDiv;
+    export let canvasDiv;
     let panzoomInstance;
 
     function updateCanvasDiv(){
