@@ -18,6 +18,7 @@
             },
             margin: [0, 0, 0, 0],
             width:595,
+            windowWidth:canvasOptions.width,
             x: 0,
             y: 0,
             html2canvas: {},
