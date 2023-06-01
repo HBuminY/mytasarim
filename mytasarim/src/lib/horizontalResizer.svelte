@@ -10,19 +10,19 @@
     function startResize(event){
         resizing=true;
         startX=event.x;
-    }
+    };
 
     function stopResize(event){
         resizing=false
         diff=0;
         doOnMouseUp();
-    }
+    };
 
     $:{
         if(resizing){
             diff=$mousePos[0]-startX;
-        }
-    }
+        };
+    };
 </script>
 
 <svelte:body on:mouseup={stopResize}/>

@@ -4,12 +4,11 @@
   import MenuTab from "./lib/menuTab.svelte";
   import Menu from "./lib/menu.svelte";
   import { mousePos } from "./lib/stores.js";
-    import FileMenu from "./lib/fileMenu.svelte";
-    import CanvasMenu from "./lib/canvasMenu.svelte";
-    import Mycv from "./lib/mycv.svelte";
+  import FileMenu from "./lib/fileMenu.svelte";
+  import CanvasMenu from "./lib/canvasMenu.svelte";
+  import Mycv from "./lib/mycv.svelte";
 
-  let ww = window.innerWidth; // window width
-  let wh = window.innerHeight; // window height
+  
 
   let canvasDiv;
 

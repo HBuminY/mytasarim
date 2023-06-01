@@ -1,10 +1,10 @@
 <div class="w-full h-full bg-white flex flex-col p-5 gap-5">
     <div class="flex flex-row w-full bg-slate-50 shadow-md p-2 justify-between">
         <div class="flex flex-col ">
-            <h1 class="text-4xl idek">
+            <h1 class="text-4xl bebas">
                 Hulusi Bumin Yalçın
             </h1>
-            <h1 class="text-2xl idek">
+            <h1 class="text-2xl bebas">
                 Entry-level Web-developer
             </h1>
             <p class="text-sm">
@@ -21,16 +21,25 @@
         </div>
     </div>
 
-    <div class="flex flex-col grow bg-slate-50 shadow-md">
 
+
+    <div class="flex flex-col grow bg-slate-50 shadow-md">
+        <div>
+            <h1 class="">
+                Work Experience
+            </h1>
+        </div>
     </div>
 </div>
 
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,700&family=Lobster&family=Press+Start+2P&family=Raleway:wght@200&display=swap');
+    @font-face {
+        font-family: bebas;
+        src: url(BebasNeue-Regular.ttf);
+    }
 
-    .idek{
-        font-family: 'Josefin Sans', sans-serif;
+    .bebas{
+        font-family: 'bebas', sans-serif;
         @apply text-slate-900;
     }
 </style>
