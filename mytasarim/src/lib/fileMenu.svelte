@@ -35,5 +35,6 @@
 </script>
 
 <div>
+    <p class="text-red-700">This version of MyTasarim has a bug that might cause exports to end up with an extra blank page. You can delete that unintended page using online tools or adobe acrobat. Good day!</p>
     <button class="button" on:click={saveFunction}>Save as PDF</button>
 </div>
