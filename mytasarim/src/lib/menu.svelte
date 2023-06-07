@@ -22,7 +22,7 @@
 </script>
 
 <div 
-    class="relative w-1/4 shrink-0 bg-red-300 z-30 p-4 flex flex-col gap-4"
+    class="relative min-w-min w-1/6 shrink-0 bg-red-300 z-30 p-4 flex flex-col gap-4"
     style="width: {clamp(newWidth,ww/6,ww/3)}px;"
 
     bind:this={container}

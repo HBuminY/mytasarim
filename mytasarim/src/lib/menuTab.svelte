@@ -1,5 +1,5 @@
 <script>
-    let showMenu=false;
+    let showMenu=true;
 </script>
 
 <div 

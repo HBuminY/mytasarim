@@ -1,4 +1,6 @@
 <script>
+    import { toolOptions } from "./stores";
+
     let laytouts=[
         {
             name:"test1"
@@ -10,13 +12,15 @@
 </script>
     
 <div>
-    <p class="text-red-700">Warning : Layout system isn't complete (dont use it!)</p>
-    <span>
-        <button class="button">
-            Add Layout
-        </button>
-        <input type="text" name="newLayoutName" class="textInput">
-    </span>
+    
+    <button 
+        class="button block"
+        on:click|preventDefault={()=>{
+            $toolOptions.sliceMode=!$toolOptions.sliceMode
+        }}
+    >
+        Slice Mode : {$toolOptions.sliceMode}
+    </button>
 
     <ul>
         {#each laytouts as layout}
