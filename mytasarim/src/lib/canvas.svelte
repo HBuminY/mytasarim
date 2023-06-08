@@ -1,6 +1,7 @@
 <script>
     import panzoom from 'panzoom'
     import { onMount } from "svelte";
+    import { toolOptions } from './stores';
     
     export let canvasOptions;
     export let canvasDiv;
@@ -27,13 +28,25 @@
         });
     });
 
-    $:{if(canvasOptions&&canvasDiv){updateCanvasDiv()}}
+    $:{
+        if(canvasOptions&&canvasDiv){
+            updateCanvasDiv()
+        };
+
+        if(panzoomInstance){
+            if($toolOptions.sliceMode){
+                panzoomInstance.pause();
+            }else{
+                panzoomInstance.resume();
+            }
+        }
+    };
 </script>
 
 <svelte:window on:keydown={keyboardHandle}/>
 
 <div 
-    class="absolute bg-gray-50 shadow-xl origin-center cursor-grab"
+    class="absolute bg-gray-50 shadow-xl origin-center cursor-grab border border-8 border-black"
     bind:this={canvasDiv}
 >
     <slot/>

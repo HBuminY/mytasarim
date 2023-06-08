@@ -46,7 +46,7 @@
       <div class="grow relative h-full bg-slate-300 overflow-clip">
         <Canvas bind:canvasOptions bind:canvasDiv>
           <div class="w-full h-full">
-              <Content bind:canvasOptions/>
+              <Content/>
           </div>
         </Canvas>
       </div>

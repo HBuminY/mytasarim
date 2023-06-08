@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store';
+import { writable, readable } from 'svelte/store';
 
 function mousePosStore() {
 	const { subscribe, set} = writable([]);
@@ -19,8 +19,9 @@ function layoutObjectsStore() {
 }
 
 function toolOptionsStore() {
-	let toolOptions = {
-		sliceMode:true
+	let toolOptions = { //set the defaults fot tool options here:
+		sliceMode:false,
+		devmode:true
 	}
 
 	const { subscribe, set} = writable(toolOptions);
@@ -30,6 +31,8 @@ function toolOptionsStore() {
 		set
 	};
 }
+
+
 
 export const mousePos = mousePosStore();
 export const layoutObjects = layoutObjectsStore();
