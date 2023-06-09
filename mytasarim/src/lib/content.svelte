@@ -2,9 +2,8 @@
     //all of the contents that'll be displayed in the canvas will be in this component_subscribe. Please don't alter canvas to add content, use here.
     
     import ContentDiv from "./contentDiv.svelte";
-    import LayoutDiv from "./layoutDiv.svelte";
 </script>
 
 <div class="w-full h-full flex flex-col">
-    <LayoutDiv/>
+    <ContentDiv/>
 </div>

@@ -1,45 +1,49 @@
 <script>
     //div for holding/displaying content (can be sliced into 2 content divs)
 
+
+    //IMPORTING COMPONENTS AND SVELTE FUNCTIONS
     import { onMount, onDestroy } from "svelte";
     import { toolOptions } from "./stores";
     import Slicer from "./slicer.svelte";
-    import LayoutDiv from "./layoutDiv.svelte";
     import { get_current_component } from "svelte/internal";
 
-    let conDiv;
-    let direction=true // true: portrait, false: landscape
 
+    //DECLERATION OF GENERAL VARIABLES
+    const THIS = get_current_component();
+
+    let conDiv;
     let conDivSize={
         width:0,
         height:0
     };
 
+
+    //CALCULATING/UPDATING THE DIV DIRECTION (portrait / landscape)
+    let direction=true // true: portrait, false: landscape
+
     function updateDirection(){
-        let ldh = conDiv.offsetHeight
-        let ldw = conDiv.offsetWidth
-        let aspRatio = ldh/ldw;
+        let dh = conDiv.offsetHeight
+        let dw = conDiv.offsetWidth
+        let aspRatio = dh/dw;
         
-        direction = aspRatio>=1
-    }
+        direction = aspRatio>=1 //greater than 1 means its portrait
+    };
 
-    let THIS = get_current_component();
-    onMount(()=>{
-        updateDirection();
-    });
+    onMount(()=>{ updateDirection(); });
 
-    $:{
-        conDivSize; if(conDiv){updateDirection();};
-    }
+    $:{conDivSize; if(conDiv){updateDirection();};} //update direction on size change
 
-    //-----------------
 
+    //SLICING ACTION
     let slicingThisDiv;
+    let isSliced = false;
+
     let mousePos;
-    let divBounds = { left: 0, top: 0, width: 0, height: 0 };
+    let divBounds = { left: 0, top: 0, width: 0, height: 0 };    
 
     function slicingHandle(e){ //the mouse pos handling / scaling was done by gpt3
-        if($toolOptions.sliceMode){
+        if($toolOptions.sliceMode&&isSliced){
             updateDirection()
             slicingThisDiv=true;
 
@@ -69,20 +73,14 @@
     };
 
     function slice(){
-        if($toolOptions.sliceMode){
-            let ratio=direction?(mousePos.boxHeight/mousePos.y):(mousePos.boxWidth/mousePos.x);
-
-            let parent = conDiv.parentElement;
-            let newLayoutDiv = new LayoutDiv({
-                target:parent,
-                props:{
-                    ratio:ratio
-                }
-            });
-            THIS.$destroy();
-        }
+        if($toolOptions.sliceMode&&isSliced){
+            console.log("slicing");
+        };
     };
 </script>
+
+
+
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div 

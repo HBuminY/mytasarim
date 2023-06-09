@@ -46,7 +46,7 @@
 <svelte:window on:keydown={keyboardHandle}/>
 
 <div 
-    class="absolute bg-gray-50 shadow-xl origin-center cursor-grab border border-8 border-black"
+    class="absolute bg-gray-50 shadow-xl origin-center cursor-grab"
     bind:this={canvasDiv}
 >
     <slot/>
