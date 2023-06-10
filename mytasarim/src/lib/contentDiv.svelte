@@ -3,7 +3,7 @@
 
 
     //IMPORTING COMPONENTS AND SVELTE FUNCTIONS
-    import { onMount, tick } from "svelte";
+    import { onMount } from "svelte";
     import Slicer from "./slicer.svelte";
     import { get_current_component } from "svelte/internal";
     
@@ -37,16 +37,9 @@
     };
 
     onMount(()=>{ updateDirection(); });
+    
 
     $:{conDivSize; if(conDiv){updateDirection();};} //update direction on size change
-
-    async function updateFixStatus(id, status){
-        await tick()
-        conDivStruct.setFixStatus(ID,$fixDivSizes);
-    };
-    $:{
-      updateFixStatus(ID, $fixDivSizes)  
-    }
 
 
     //SLICING ACTION
@@ -79,9 +72,7 @@
 
             mousePos = {
                 x: Math.round(offsetX * scaleX),
-                y: Math.round(offsetY * scaleY),
-                offsetWidth:conDiv.offsetWidth,
-                offsetHeight:conDiv.offsetHeight
+                y: Math.round(offsetY * scaleY)
             };
         }
     };
@@ -90,7 +81,7 @@
     function slice(){
         if($toolOptions.sliceMode&&!isSliced){
             let pivot = direction?mousePos.y:mousePos.x;
-            let boxLen = direction?mousePos.offsetHeight:mousePos.offsetWidth;
+            let boxLen = direction?conDiv.offsetHeight:conDiv.offsetWidth;
 
             sliced1stbasis=pivot/boxLen*100;
             isSliced=true;
@@ -106,7 +97,7 @@
     "
     style="
         flex-basis: {BASIS}%;
-        {$fixDivSizes?`background-color:red; width:${conDiv.offsetWidth}px; height:${conDiv.offsetHeight}px;`:""}
+        {$fixDivSizes?`width:${conDiv.offsetWidth}px; height:${conDiv.offsetHeight}px;`:""}
     "
 
     

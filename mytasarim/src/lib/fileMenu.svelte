@@ -8,8 +8,6 @@
     export let canvasOptions;
 
     function savePDF(){
-        alert("saving PDF!")
-        return;
         let pdfWidth = canvasOptions.width;
         let pdfHeight = canvasOptions.height;
         
@@ -47,6 +45,12 @@
 
 <div>
     <p class="text-red-700">Exports may result with an extra blank page.</p>
-    <button class="button" on:click={()=>{$fixDivSizes=true;}}>Save as PDF</button>
+
+    {#if $fixDivSizes}
+    <button class="button bg-green-300" on:click={()=>{savePDF();}}>Render PDF</button>
+    {:else}
+    <button class="button bg-orange-300" on:click={()=>{$fixDivSizes=true}}>Prepare Document</button>
+    {/if}
+
     {JSON.stringify($conDivStruct)}
 </div>

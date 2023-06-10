@@ -39,8 +39,11 @@ function conDivStructStore(){
 	return {
 		subscribe,
 		newdiv:()=>update(n=>{n.divcounter++; return n}),
-		addDiv2List:(ID)=>update(n=>{n.divlist[ID]={isfixed:false}; return n}),
-		setFixStatus:(ID, newstatus)=>update(n=>{n.divlist[ID].isfixed=newstatus; return n}),
+		addDiv2List:(ID)=>update(n=>{
+			
+			n.divlist[ID] = {};
+			return n
+		}),
 	};
 };
 
