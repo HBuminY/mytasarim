@@ -32,6 +32,7 @@
             updateCanvasDiv()
         };
 
+        /* this prevents the pan and zoom functionalities when slicing
         if($panzoomInstance){
             if($toolOptions.sliceMode){
                 $panzoomInstance.pause();
@@ -39,6 +40,7 @@
                 $panzoomInstance.resume();
             }
         }
+        */
     };
 </script>
 

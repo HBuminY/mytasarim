@@ -39,10 +39,19 @@ function conDivStructStore(){
 	return {
 		subscribe,
 		newdiv:()=>update(n=>{n.divcounter++; return n}),
-		addDiv2List:(ID)=>update(n=>{
-			n.divlist.push({"id":ID})
+		addDiv2List:(ID, compRef)=>update(n=>{
+			n.divlist.push({"id":ID, "compRef":compRef})
+			//
 			return n
 		}),
+		removeDiv2List:(ID)=>update(n=>{
+			let index2remove;
+			n.divlist.forEach((item,index)=>{if(item.id==ID){index2remove=index; return false;}}) //this line of code scares me [WARNING: it might break!!!]
+			console.log(index2remove);
+			n.divlist.splice(index2remove,1);
+			//
+			return n;
+		})
 	};
 };
 

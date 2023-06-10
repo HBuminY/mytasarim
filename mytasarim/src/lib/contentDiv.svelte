@@ -3,20 +3,21 @@
 
 
     //IMPORTING COMPONENTS AND SVELTE FUNCTIONS
-    import { onMount } from "svelte";
+    import { onMount, onDestroy } from "svelte";
     import Slicer from "./slicer.svelte";
     import { get_current_component } from "svelte/internal";
     
     //SUBSCRIBING STORES
     import { toolOptions, conDivStruct } from "./stores";
+    import Canvas from "./canvas.svelte";
+
+    //DECLERATION OF GENERAL VARIABLES
+    export let BASIS=100;
+    const THIS = get_current_component();
     const ID = `contentDiv_${$conDivStruct.divcounter}`
 
     conDivStruct.newdiv();
-    conDivStruct.addDiv2List(ID);
-
-    //DECLERATION OF GENERAL VARIABLES
-    const THIS = get_current_component();
-    export let BASIS=100;
+    conDivStruct.addDiv2List(ID, THIS);
 
     let conDiv;
     let conDivSize={
@@ -73,6 +74,7 @@
         }
     };
 
+    let children=0;
     let sliced1stbasis; //gonna need a better name
     function slice(){
         if($toolOptions.sliceMode&&!isSliced){
@@ -81,8 +83,17 @@
 
             sliced1stbasis=pivot/boxLen*100;
             isSliced=true;
+            children=2;
         };
     };
+
+    //
+    export let parentChildren=null;
+    $:{if(children<=0){isSliced=false}}
+    onDestroy(()=>{
+        if(parentChildren){parentChildren--}
+        conDivStruct.removeDiv2List(ID)
+    });
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -100,8 +111,8 @@
     on:click={slice}
 >
     {#if isSliced}
-        <svelte:self BASIS={sliced1stbasis}/>
-        <svelte:self BASIS={100-sliced1stbasis}/>
+        <svelte:self BASIS={sliced1stbasis} bind:parentChildren={children}/>
+        <svelte:self BASIS={100-sliced1stbasis} bind:parentChildren={children}/>
     {:else}
         <slot/>
     {/if}
@@ -121,5 +132,6 @@
 
     {#if slicingThisDiv&&!isSliced}
         <Slicer {direction} bind:mousePos/>
+        {ID}
     {/if}
 </div>
