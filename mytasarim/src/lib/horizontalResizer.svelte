@@ -28,7 +28,7 @@
 <svelte:body on:mouseup={stopResize}/>
 
 <div 
-        class="absolute h-[10%] w-1 bg-red-950 hover:bg-red-700 right-0 top-1/2 -translate-y-1/2 translate-x-1/2 cursor-grab"
+        class="absolute h-[10%] w-2 bg-red-950 hover:bg-red-700 right-0 top-1/2 -translate-y-1/2 translate-x-1/2 cursor-grab"
         on:mousedown={startResize}
     >
 </div>

@@ -34,14 +34,13 @@ function toolOptionsStore() {
 };
 
 function conDivStructStore(){
-	const { subscribe, set, update} = writable({divcounter:0,divlist:{}});
+	const { subscribe, set, update} = writable({divcounter:0,divlist:[]});
 
 	return {
 		subscribe,
 		newdiv:()=>update(n=>{n.divcounter++; return n}),
 		addDiv2List:(ID)=>update(n=>{
-			
-			n.divlist[ID] = {};
+			n.divlist.push({"id":ID})
 			return n
 		}),
 	};
@@ -52,4 +51,4 @@ export const mousePos = mousePosStore();
 export const layoutObjects = layoutObjectsStore();
 export const toolOptions = toolOptionsStore();
 export const conDivStruct = conDivStructStore();
-export const fixDivSizes = writable(false);
+export const panzoomInstance = writable(null);

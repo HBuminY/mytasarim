@@ -16,6 +16,8 @@
     
 
     {#if showMenu}
-    <slot name="menu"/>
+    <div class="max-h-[30vh] w-full overflow-auto">
+        <slot name="menu"/>
+    </div>
     {/if}
 </div>

@@ -8,7 +8,7 @@
     import { get_current_component } from "svelte/internal";
     
     //SUBSCRIBING STORES
-    import { toolOptions, conDivStruct, fixDivSizes } from "./stores";
+    import { toolOptions, conDivStruct } from "./stores";
     const ID = `contentDiv_${$conDivStruct.divcounter}`
 
     conDivStruct.newdiv();
@@ -24,7 +24,6 @@
         height:0
     };
 
-
     //CALCULATING/UPDATING THE DIV DIRECTION (portrait / landscape)
     let direction=true // true: portrait, false: landscape
 
@@ -35,10 +34,7 @@
         
         direction = aspRatio>=1 //greater than 1 means its portrait
     };
-
     onMount(()=>{ updateDirection(); });
-    
-
     $:{conDivSize; if(conDiv){updateDirection();};} //update direction on size change
 
 
@@ -92,13 +88,10 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div 
     class="
-        relative bg-slate-200 flex border-2 border-black
+        relative {isSliced?"bg-opacity-0":"bg-slate-200 border"} flex border-black gap-5
         {direction?'flex-col':'flex-row'}
     "
-    style="
-        flex-basis: {BASIS}%;
-        {$fixDivSizes?`width:${conDiv.offsetWidth}px; height:${conDiv.offsetHeight}px;`:""}
-    "
+    style="flex-basis: {BASIS}%;"
 
     
     bind:this={conDiv} bind:offsetWidth={conDivSize.width} bind:offsetHeight={conDivSize.height}

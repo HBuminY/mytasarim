@@ -1,11 +1,10 @@
 <script>
     import panzoom from 'panzoom'
     import { onMount } from "svelte";
-    import { toolOptions } from './stores';
+    import { toolOptions, panzoomInstance } from './stores';
     
     export let canvasOptions;
     export let canvasDiv;
-    let panzoomInstance;
 
     function updateCanvasDiv(){
         canvasDiv.style.width=`${canvasOptions.width}px`;
@@ -15,15 +14,15 @@
     function keyboardHandle(event){
         //console.log(event);
         if(event.code==='Space'){
-            panzoomInstance.zoomTo(0,0,1);
-            panzoomInstance.moveTo(0,0);
-            //console.log(panzoomInstance);
+            $panzoomInstance.zoomTo(0,0,1);
+            $panzoomInstance.moveTo(0,0);
+            //console.log($panzoomInstance);
         };
     };
 
     onMount(()=>{
         updateCanvasDiv();
-        panzoomInstance=panzoom(canvasDiv, {
+        $panzoomInstance=panzoom(canvasDiv, {
             smoothScroll:false
         });
     });
@@ -33,11 +32,11 @@
             updateCanvasDiv()
         };
 
-        if(panzoomInstance){
+        if($panzoomInstance){
             if($toolOptions.sliceMode){
-                panzoomInstance.pause();
+                $panzoomInstance.pause();
             }else{
-                panzoomInstance.resume();
+                $panzoomInstance.resume();
             }
         }
     };
@@ -46,7 +45,7 @@
 <svelte:window on:keydown={keyboardHandle}/>
 
 <div 
-    class="absolute bg-gray-50 shadow-xl origin-center cursor-grab"
+    class="absolute bg-white shadow-xl origin-center cursor-grab"
     bind:this={canvasDiv}
 >
     <slot/>

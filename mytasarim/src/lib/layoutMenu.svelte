@@ -1,20 +1,11 @@
 <script>
-    import { toolOptions } from "./stores";
-
-    let laytouts=[
-        {
-            name:"test1"
-        },
-        {
-            name:"test2"
-        },
-    ];
+    import { toolOptions, conDivStruct } from "./stores";
 </script>
     
 <div>
     
     <button 
-        class="button block"
+        class="button w-full"
         on:click|preventDefault={()=>{
             $toolOptions.sliceMode=!$toolOptions.sliceMode
         }}
@@ -23,9 +14,9 @@
     </button>
 
     <ul>
-        {#each laytouts as layout}
+        {#each $conDivStruct.divlist as {id}}
         <li class="border border-black">
-            <span>Name:{layout.name}</span>
+            <span>id:{id}</span>
             <button class="button">delete</button>
         </li>
         {/each}

@@ -6,7 +6,7 @@
   import { mousePos } from "./lib/stores.js";
   import FileMenu from "./lib/fileMenu.svelte";
   import CanvasMenu from "./lib/canvasMenu.svelte";
-  import Content from "./lib/content.svelte";
+  import ContentDiv from "./lib/contentDiv.svelte";
 
   let canvasDiv;
 
@@ -45,8 +45,8 @@
 
       <div class="grow relative h-full bg-slate-300 overflow-clip">
         <Canvas bind:canvasOptions bind:canvasDiv>
-          <div class="w-full h-full">
-              <Content/>
+          <div class="relative w-full h-full flex flex-col p-1 z-0 overflow-hidden">
+            <ContentDiv/>
           </div>
         </Canvas>
       </div>
