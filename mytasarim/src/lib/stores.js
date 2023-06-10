@@ -1,4 +1,5 @@
 import { writable, readable } from 'svelte/store';
+import app from '../main';
 
 function mousePosStore() {
 	const { subscribe, set} = writable([]);
@@ -16,7 +17,7 @@ function layoutObjectsStore() {
 		subscribe,
 		set
 	};
-}
+};
 
 function toolOptionsStore() {
 	let toolOptions = { //set the defaults fot tool options here:
@@ -30,10 +31,22 @@ function toolOptionsStore() {
 		subscribe,
 		set
 	};
-}
+};
 
+function conDivStructStore(){
+	const { subscribe, set, update} = writable({divcounter:0,divlist:{}});
+
+	return {
+		subscribe,
+		newdiv:()=>update(n=>{n.divcounter++; return n}),
+		addDiv2List:(ID)=>update(n=>{n.divlist[ID]={isfixed:false}; return n}),
+		setFixStatus:(ID, newstatus)=>update(n=>{n.divlist[ID].isfixed=newstatus; return n}),
+	};
+};
 
 
 export const mousePos = mousePosStore();
 export const layoutObjects = layoutObjectsStore();
 export const toolOptions = toolOptionsStore();
+export const conDivStruct = conDivStructStore();
+export const fixDivSizes = writable(false);

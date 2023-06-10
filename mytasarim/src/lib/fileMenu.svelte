@@ -1,13 +1,15 @@
 <script>
+    import { conDivStruct, fixDivSizes } from "./stores";
+
     import {jsPDF} from 'jspdf'
     import { bebas } from './fonts64s';
 
     export let canvasDiv;
     export let canvasOptions;
 
-    function saveFunction(){
-        console.log("saving:\n",canvasDiv);
-
+    function savePDF(){
+        alert("saving PDF!")
+        return;
         let pdfWidth = canvasOptions.width;
         let pdfHeight = canvasOptions.height;
         
@@ -25,16 +27,26 @@
             callback: function (doc) {
                 doc.save();
             },
-            autoPaging:"slice",
+            autoPaging:false,
             margin: 0,
             x: 0,
             y: 0,
             html2canvas: {},
         });
+
     };
+
+    $:{
+        let vals = Object.values($conDivStruct.divlist);
+        if(vals.length!=0&&vals.every((n)=>n.isfixed)){
+            savePDF();
+        };
+    };
+
 </script>
 
 <div>
     <p class="text-red-700">Exports may result with an extra blank page.</p>
-    <button class="button" on:click={saveFunction}>Save as PDF</button>
+    <button class="button" on:click={()=>{$fixDivSizes=true;}}>Save as PDF</button>
+    {JSON.stringify($conDivStruct)}
 </div>

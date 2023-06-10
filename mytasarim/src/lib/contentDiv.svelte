@@ -3,11 +3,16 @@
 
 
     //IMPORTING COMPONENTS AND SVELTE FUNCTIONS
-    import { onMount, onDestroy } from "svelte";
-    import { toolOptions } from "./stores";
+    import { onMount, tick } from "svelte";
     import Slicer from "./slicer.svelte";
     import { get_current_component } from "svelte/internal";
+    
+    //SUBSCRIBING STORES
+    import { toolOptions, conDivStruct, fixDivSizes } from "./stores";
+    const ID = `contentDiv_${$conDivStruct.divcounter}`
 
+    conDivStruct.newdiv();
+    conDivStruct.addDiv2List(ID);
 
     //DECLERATION OF GENERAL VARIABLES
     const THIS = get_current_component();
@@ -34,6 +39,14 @@
     onMount(()=>{ updateDirection(); });
 
     $:{conDivSize; if(conDiv){updateDirection();};} //update direction on size change
+
+    async function updateFixStatus(id, status){
+        await tick()
+        conDivStruct.setFixStatus(ID,$fixDivSizes);
+    };
+    $:{
+      updateFixStatus(ID, $fixDivSizes)  
+    }
 
 
     //SLICING ACTION
@@ -67,8 +80,8 @@
             mousePos = {
                 x: Math.round(offsetX * scaleX),
                 y: Math.round(offsetY * scaleY),
-                boxWidth:conDiv.offsetWidth,
-                bowHeight:conDiv.offsetHeight
+                offsetWidth:conDiv.offsetWidth,
+                offsetHeight:conDiv.offsetHeight
             };
         }
     };
@@ -77,7 +90,7 @@
     function slice(){
         if($toolOptions.sliceMode&&!isSliced){
             let pivot = direction?mousePos.y:mousePos.x;
-            let boxLen = direction?mousePos.bowHeight:mousePos.boxWidth;
+            let boxLen = direction?mousePos.offsetHeight:mousePos.offsetWidth;
 
             sliced1stbasis=pivot/boxLen*100;
             isSliced=true;
@@ -85,17 +98,18 @@
     };
 </script>
 
-
-
-
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div 
     class="
         relative bg-slate-200 flex border-2 border-black
-
         {direction?'flex-col':'flex-row'}
     "
-    style="flex-basis: {BASIS}%;"
+    style="
+        flex-basis: {BASIS}%;
+        {$fixDivSizes?`background-color:red; width:${conDiv.offsetWidth}px; height:${conDiv.offsetHeight}px;`:""}
+    "
+
+    
     bind:this={conDiv} bind:offsetWidth={conDivSize.width} bind:offsetHeight={conDivSize.height}
     on:mouseleave={()=>{slicingThisDiv=false;}}
     on:mousemove={slicingHandle}
@@ -104,7 +118,12 @@
     {#if isSliced}
         <svelte:self BASIS={sliced1stbasis}/>
         <svelte:self BASIS={100-sliced1stbasis}/>
+    {:else}
+        <slot/>
     {/if}
+
+
+
 
     {#if false}
     <div class="absolute left-1/2 top-1/2 text-center -translate-x-1/2">
