@@ -11,6 +11,7 @@
 
     //DECLERATION OF GENERAL VARIABLES
     const THIS = get_current_component();
+    export let BASIS=100;
 
     let conDiv;
     let conDivSize={
@@ -43,7 +44,7 @@
     let divBounds = { left: 0, top: 0, width: 0, height: 0 };    
 
     function slicingHandle(e){ //the mouse pos handling / scaling was done by gpt3
-        if($toolOptions.sliceMode&&isSliced){
+        if($toolOptions.sliceMode&&!isSliced){
             updateDirection()
             slicingThisDiv=true;
 
@@ -66,15 +67,20 @@
             mousePos = {
                 x: Math.round(offsetX * scaleX),
                 y: Math.round(offsetY * scaleY),
-                boxWidth:divBounds.width,
-                bowHeight:divBounds.height
+                boxWidth:conDiv.offsetWidth,
+                bowHeight:conDiv.offsetHeight
             };
         }
     };
 
+    let sliced1stbasis; //gonna need a better name
     function slice(){
-        if($toolOptions.sliceMode&&isSliced){
-            console.log("slicing");
+        if($toolOptions.sliceMode&&!isSliced){
+            let pivot = direction?mousePos.y:mousePos.x;
+            let boxLen = direction?mousePos.bowHeight:mousePos.boxWidth;
+
+            sliced1stbasis=pivot/boxLen*100;
+            isSliced=true;
         };
     };
 </script>
@@ -84,18 +90,33 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div 
-    class="flex-grow bg-slate-200 flex {direction?'flex-col':'flex-row'}"
+    class="
+        relative bg-slate-200 flex border-2 border-black
+
+        {direction?'flex-col':'flex-row'}
+    "
+    style="flex-basis: {BASIS}%;"
     bind:this={conDiv} bind:offsetWidth={conDivSize.width} bind:offsetHeight={conDivSize.height}
     on:mouseleave={()=>{slicingThisDiv=false;}}
     on:mousemove={slicingHandle}
     on:click={slice}
 >
-    {#if $toolOptions.devmode}
-        div:contentDiv <br> mouseAxis:
-        {JSON.stringify(mousePos)}
+    {#if isSliced}
+        <svelte:self BASIS={sliced1stbasis}/>
+        <svelte:self BASIS={100-sliced1stbasis}/>
     {/if}
 
-    {#if slicingThisDiv}
+    {#if false}
+    <div class="absolute left-1/2 top-1/2 text-center -translate-x-1/2">
+        div:contentDiv
+        <br> 
+        {direction}
+        <br>
+        mouseAxis:{JSON.stringify(mousePos)}
+    </div>
+    {/if}
+
+    {#if slicingThisDiv&&!isSliced}
         <Slicer {direction} bind:mousePos/>
     {/if}
 </div>
