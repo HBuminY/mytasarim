@@ -132,6 +132,10 @@
 
     {#if slicingThisDiv&&!isSliced}
         <Slicer {direction} bind:mousePos/>
-        {ID}
+        <div class="relative">
+            <div class="absolute z-40">
+                {ID}
+            </div>
+        </div>
     {/if}
 </div>
