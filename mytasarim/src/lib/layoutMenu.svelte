@@ -7,6 +7,7 @@
     
 <div>
     
+    press "S" for toggling slice mode
     <button 
         class="button w-full"
         on:click|preventDefault={()=>{
