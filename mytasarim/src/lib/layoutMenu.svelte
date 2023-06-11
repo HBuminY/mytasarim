@@ -16,13 +16,28 @@
         Slice Mode : {$toolOptions.sliceMode}
     </button>
 
+    
     <button 
         class="button w-full bg-red-300"
         on:click|preventDefault={()=>{
             console.log($conDivStruct.divlist);
         }}
     >
-        bruh
+            console log condDiv tree
+    </button>
+    
+    <button
+        class="button w-full"
+        on:click={()=>{
+            let ohmy = [
+                $conDivStruct.divlist[1].compRef,
+                $conDivStruct.divlist[2].compRef
+            ]
+            ohmy.forEach((n)=>{n.$destroy()})
+            $conDivStruct.divlist[0].compRef.unslice();
+        }}
+    >
+        reset layout
     </button>
 
     <div class="max-h-[30vh] w-full overflow-auto">

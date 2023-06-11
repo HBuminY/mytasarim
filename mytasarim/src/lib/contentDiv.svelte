@@ -1,15 +1,20 @@
+<!--COMPONENT SETTINGS-->
+<svelte:options accessors={true}/>
+
+<!--
+    DESCRIPTION:
+    condiv or content div:
+        div for holding/displaying content (can be sliced into 2 of itself)
+-->
+
 <script>
-    //div for holding/displaying content (can be sliced into 2 content divs)
-
-
     //IMPORTING COMPONENTS AND SVELTE FUNCTIONS
     import { onMount, onDestroy } from "svelte";
     import Slicer from "./slicer.svelte";
     import { get_current_component } from "svelte/internal";
     
     //SUBSCRIBING STORES
-    import { toolOptions, conDivStruct } from "./stores";
-    import Canvas from "./canvas.svelte";
+    import { toolOptions, conDivStruct, focusedDiv } from "./stores";
 
     //DECLERATION OF GENERAL VARIABLES
     export let BASIS=100;
@@ -26,7 +31,7 @@
     };
 
     //CALCULATING/UPDATING THE DIV DIRECTION (portrait / landscape)
-    let direction=true // true: portrait, false: landscape
+    let direction; // true: portrait, false: landscape
 
     function updateDirection(){
         let dh = conDiv.offsetHeight
@@ -36,7 +41,7 @@
         direction = aspRatio>=1 //greater than 1 means its portrait
     };
     onMount(()=>{ updateDirection(); });
-    $:{conDivSize; if(conDiv){updateDirection();};} //update direction on size change
+    //$:{conDivSize; if(conDiv){updateDirection();};} //update direction on size change
 
 
     //SLICING ACTION
@@ -48,7 +53,6 @@
 
     function slicingHandle(e){ //the mouse pos handling / scaling was done by gpt3
         if($toolOptions.sliceMode&&!isSliced){
-            updateDirection()
             slicingThisDiv=true;
 
             const { left, top, width, height } = conDiv.getBoundingClientRect();
@@ -73,9 +77,13 @@
             };
         }
     };
+    $:{
+        if(!$toolOptions.sliceMode){slicingThisDiv=false;}
+    }
 
     let children=0;
-    let sliced1stbasis; //gonna need a better name
+    let sliced1stbasis; //gonna need a better name (this is the basis of the first condiv child as it is contained in flexbox)
+    
     function slice(){
         if($toolOptions.sliceMode&&!isSliced){
             let pivot = direction?mousePos.y:mousePos.x;
@@ -88,12 +96,25 @@
     };
 
     //
-    export let parentChildren=null;
-    $:{if(children<=0){isSliced=false}}
+    export let parentChildren=undefined;
+    $:{if(children==0){isSliced=false}}
     onDestroy(()=>{
-        if(parentChildren){parentChildren--}
+        if(parentChildren){
+            parentChildren--
+        }
         conDivStruct.removeDiv2List(ID)
     });
+
+
+    //
+    //CUSTOM METHODS
+    export const flipDirection = ()=>{
+        if(slicingThisDiv){direction=!direction}
+    };
+
+    export const unslice = ()=>{
+        isSliced=false;
+    };
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -104,8 +125,9 @@
     "
     style="flex-basis: {BASIS}%;"
 
-    
     bind:this={conDiv} bind:offsetWidth={conDivSize.width} bind:offsetHeight={conDivSize.height}
+
+    on:mouseenter={()=>{$focusedDiv=THIS}}
     on:mouseleave={()=>{slicingThisDiv=false;}}
     on:mousemove={slicingHandle}
     on:click={slice}
@@ -117,10 +139,7 @@
         <slot/>
     {/if}
 
-
-
-
-    {#if false}
+    <!--
     <div class="absolute left-1/2 top-1/2 text-center -translate-x-1/2">
         div:contentDiv
         <br> 
@@ -128,7 +147,7 @@
         <br>
         mouseAxis:{JSON.stringify(mousePos)}
     </div>
-    {/if}
+    -->
 
     {#if slicingThisDiv&&!isSliced}
         <Slicer {direction} bind:mousePos/>

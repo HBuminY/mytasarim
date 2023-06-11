@@ -45,9 +45,9 @@ function conDivStructStore(){
 			return n
 		}),
 		removeDiv2List:(ID)=>update(n=>{
-			let index2remove;
+			let index2remove; //gets the index of condiv thats gonna be removed in condivlist which contains list of all condivs
 			n.divlist.forEach((item,index)=>{if(item.id==ID){index2remove=index; return false;}}) //this line of code scares me [WARNING: it might break!!!]
-			console.log(index2remove);
+			//console.log(index2remove);
 			n.divlist.splice(index2remove,1);
 			//
 			return n;
@@ -61,3 +61,4 @@ export const layoutObjects = layoutObjectsStore();
 export const toolOptions = toolOptionsStore();
 export const conDivStruct = conDivStructStore();
 export const panzoomInstance = writable(null);
+export const focusedDiv = writable(null);

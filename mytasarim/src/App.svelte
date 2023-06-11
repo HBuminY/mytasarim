@@ -7,6 +7,7 @@
   import FileMenu from "./lib/fileMenu.svelte";
   import CanvasMenu from "./lib/canvasMenu.svelte";
   import ContentDiv from "./lib/contentDiv.svelte";
+  import {toolOptions, focusedDiv} from './lib/stores.js'
 
   let canvasDiv;
 
@@ -18,9 +19,27 @@
   function mousePosHandler(event){
     mousePos.mouseEvent(event)
   };
+
+  function keypressHandler(e){
+    let code = e.code;
+
+    switch(code){
+      case 'KeyR':
+        let d = $focusedDiv;
+        d.flipDirection();
+        break;
+        
+      case 'KeyS':
+        $toolOptions.sliceMode=!$toolOptions.sliceMode
+        break;
+    };
+  };
 </script>
 
-<svelte:body on:mousemove={mousePosHandler}/>
+<svelte:window 
+  on:mousemove={mousePosHandler}
+  on:keypress={keypressHandler}
+/>
 
 <main class="fixed top-0 left-0 w-screen h-screen bg-black">
 

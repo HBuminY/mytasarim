@@ -47,7 +47,7 @@
 <svelte:window on:keydown={keyboardHandle}/>
 
 <div 
-    class="absolute bg-white shadow-xl origin-center cursor-grab"
+    class="absolute bg-white shadow-xl origin-center {$toolOptions.sliceMode?'cursor-crosshair':'cursor-grab'}"
     bind:this={canvasDiv}
 >
     <slot/>

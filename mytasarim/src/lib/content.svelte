@@ -5,5 +5,5 @@
 </script>
 
 <div class="w-full h-full flex flex-col">
-    <ContentDiv/>
+    <ContentDiv isFisrtCondiv={true}/>
 </div>
