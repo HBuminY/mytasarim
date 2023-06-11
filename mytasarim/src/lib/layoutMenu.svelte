@@ -8,6 +8,8 @@
 <div>
     
     press "S" for toggling slice mode
+    <br>
+    press "R" for changing slice direction
     <button 
         class="button w-full"
         on:click|preventDefault={()=>{
